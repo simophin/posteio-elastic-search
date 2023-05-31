@@ -24,5 +24,7 @@ RUN apt -y update && \
 
 WORKDIR /
 
+
 COPY 11-fts.conf /etc/dovecot/conf.d/
+COPY 10-setup-fts.sh /etc/cont-init.d/
 ENV ELASTICSEARCH_URL=http://localhost:9200
