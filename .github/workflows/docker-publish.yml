@@ -69,10 +69,10 @@ jobs:
       - name: Find out tag names
         id: tags
         run: |
-          tags="${{ inputs.posteio_version }}"
-          if [[ -n "${{ inputs.alt_tag_names }}" ]]; then
-            tags+=",${{ inputs.alt_tag_names }}"
-          fi
+          tags="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.posteio_version }}"
+          for tag in $(echo "${{ inputs.alt_tag_names }}" | tr ',' "\n"); do
+            tags+=",${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ tag }}"
+          done
           echo "tags=$tags" >> $GITHUB_OUTPUT
 
       # Build and push Docker image with Buildx (don't push on PR)
