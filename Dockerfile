@@ -25,3 +25,5 @@ RUN apt -y update && \
 WORKDIR /
 
 COPY 11-fts.conf /etc/dovecot/conf.d/
+COPY haproxy_hosts /opt/haraka-smtp/config/
+COPY haproxy_hosts /opt/haraka-submission/config/
