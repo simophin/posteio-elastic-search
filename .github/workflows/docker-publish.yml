@@ -70,7 +70,7 @@ jobs:
         id: tags
         run: |
           tags=$(echo "${{ inputs.posteio_version }},${{ inputs.alt_tag_names }}" | tr ',' '\n' | while read tag; do
-            echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag"
+            printf "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag "
           done)
           echo "tags=$tags" >> $GITHUB_OUTPUT
 
