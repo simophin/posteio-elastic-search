@@ -69,9 +69,10 @@ jobs:
       - name: Find out tag names
         id: tags
         run: |
-          tags=$(echo "${{ inputs.posteio_version }},${{ inputs.alt_tag_names }}" | tr ',' '\n' | while read tag; do
-            printf "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag "
-          done)
+          tags="${{ inputs.posteio_version }}"
+          if [[ -n "${{ inputs.alt_tag_names }}" ]]; then
+            tags+=",${{ inputs.alt_tag_names }}"
+          fi
           echo "tags=$tags" >> $GITHUB_OUTPUT
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -100,4 +101,4 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: echo "${{ steps.tags.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+        run: echo "${{ steps.tags.outputs.tags }}" | tr ',' '\0' | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
