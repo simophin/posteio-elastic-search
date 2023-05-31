@@ -71,7 +71,7 @@ jobs:
         run: |
           tags="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.posteio_version }}"
           for tag in $(echo "${{ inputs.alt_tag_names }}" | tr ',' "\n"); do
-            tags+=",${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ tag }}"
+            tags+=",${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag"
           done
           echo "tags=$tags" >> $GITHUB_OUTPUT
 
