@@ -25,4 +25,4 @@ RUN apt -y update && \
 WORKDIR /
 
 COPY 11-fts.conf /etc/dovecot/conf.d/
-ENV ELASTIC_SEARCH_URL=http://localhost:9200
+ENV ELASTICSEARCH_URL=http://localhost:9200
