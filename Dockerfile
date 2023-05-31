@@ -23,4 +23,7 @@ RUN apt -y update && \
     apt -y autoremove
 
 WORKDIR /
+
+RUN ln -sv /usr/lib/dovecot/lib21_fts_xapian_plugin.so /usr/lib/dovecot/modules/lib21_fts_xapian_plugin.so
+
 COPY 11-fts.conf /etc/dovecot/conf.d/
