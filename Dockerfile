@@ -1,29 +1,28 @@
-ARG xapian_version=1.5.5
+ARG fts_elastic_version=1.1.0
 ARG posteio_version=latest
 
 FROM analogic/poste.io:${posteio_version}
 
 WORKDIR /build
 
-ARG xapian_version
+ARG fts_elastic_version
 ARG posteio_version
 
-ADD https://github.com/grosjo/fts-xapian/releases/download/${xapian_version}/dovecot-fts-xapian-${xapian_version}.tar.gz fts.tar.gz
+ADD https://github.com/filiphanes/fts-elastic/archive/refs/tags/${fts_elastic_version}.tar.gz fts.tar.gz
 
 RUN apt -y update && \
-    apt -y install build-essential dovecot-dev git libxapian-dev libicu-dev libsqlite3-dev autoconf automake libtool pkg-config libxapian30 && \
-    tar zxfv fts.tar.gz && cd fts-xapian-$xapian_version && \
-    autoupdate && \
-    autoreconf -vi && \
+    apt -y install gcc make libjson-c-dev dovecot-dev autoconf automake build-essential libtool && \
+    tar zxfv fts.tar.gz && cd fts-elastic-$fts_elastic_version && \
+    ./autogen.sh && \
     ./configure --with-dovecot=/usr/lib/dovecot/ && \
     make install && \
+    ln -sv /usr/lib/dovecot/lib21_fts_elastic_plugin.so /usr/lib/dovecot/modules/lib21_fts_elastic_plugin.so && \
     rm -rf /build && \
     cd / && \
-    apt -y purge build-essential dovecot-dev git libxapian-dev libicu-dev libsqlite3-dev autoconf automake libtool pkg-config && \
+    apt -y purge gcc make libjson-c-dev dovecot-dev autoconf automake build-essential libtool && \
     apt -y autoremove
 
 WORKDIR /
 
 COPY 11-fts.conf /etc/dovecot/conf.d/
-COPY haproxy_hosts /opt/haraka-smtp/config/
-COPY haproxy_hosts /opt/haraka-submission/config/
+ENV ELASTIC_SEARCH_URL=http://localhost:9200

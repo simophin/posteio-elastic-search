@@ -17,10 +17,10 @@ on:
         required: false
         type: string
         default: 'latest,2'
-      xapian_version:
-        description: 'Xapian FTS plugin version'
+      fts_elastic_version:
+        description: 'Elastic FTS plugin version'
         required: true
-        default: '1.5.5'
+        default: '1.1.0'
         type: string
 
 env:
@@ -83,7 +83,7 @@ jobs:
         with:
           context: .
           build-args: |
-            xapian_version=${{ inputs.xapian_version }}
+            fts_elastic_version=${{ inputs.fts_elastic_version }}
             posteio_version=${{ inputs.posteio_version }}
           push: true
           tags: ${{ steps.tags.outputs.tags }}
