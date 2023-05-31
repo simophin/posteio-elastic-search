@@ -1,4 +1,4 @@
-# posteio-xapian
+# posteio-elasticsearch
 A [poste.io](https://poste.io) docker image compiled with [fts-elastic](https://github.com/filiphanes/fts-elastic) support.
 
 ## Additional Docker Environment
