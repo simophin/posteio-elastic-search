@@ -67,9 +67,9 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
-          build-args:
-            - xapian_version=${{ inputs.xapian_version }}
-            - posteio_version=${{ inputs.posteio_version }}
+          build-args: |
+            xapian_version=${{ inputs.xapian_version }}
+            posteio_version=${{ inputs.posteio_version }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.posteio_version }}
           cache-from: type=gha
