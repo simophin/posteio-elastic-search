@@ -69,11 +69,10 @@ jobs:
       - name: Find out tag names
         id: tags
         run: |
-          export TAG_NAMES="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.posteio_version }}"
-          echo "${{ inputs.alt_tag_names }}" | tr ',' '\n' | while read tag; do
-            TAG_NAMES="${TAG_NAMES}\n${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag"
-          done
-          echo "tags=${TAG_NAMES}" >> $GITHUB_OUTPUT
+          tags=$(echo "${{ inputs.posteio_version }},${{ inputs.alt_tag_names }}" | tr ',' '\n' | while read tag; do
+            echo "${TAG_NAMES}\n${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag"
+          done)
+          echo "tags=$tags" >> $GITHUB_OUTPUT
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
