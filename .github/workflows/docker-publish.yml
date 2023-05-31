@@ -69,9 +69,9 @@ jobs:
       - name: Find out tag names
         id: tags
         run: |
-          export TAG_NAMES="${env.REGISTRY}/${env.IMAGE_NAME}:${{ inputs.posteio_version }}"
+          export TAG_NAMES="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.posteio_version }}"
           echo "${inputs.alt_tag_names}" | tr ',' '\n' | while read tag; do
-            TAG_NAMES="${TAG_NAMES}\n${env.REGISTRY}/${env.IMAGE_NAME}:${tag}"
+            TAG_NAMES="${TAG_NAMES}\n${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$tag"
           done
           echo "tags=${TAG_NAMES}" >> $GITHUB_OUTPUT
 
